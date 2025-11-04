@@ -7,7 +7,7 @@ const port = process.env.PORT||3000;
 
 
 
-var admin = require("firebase-admin");
+const admin = require("firebase-admin");
 
 const serviceAccount = require("./smart-deals-b92ea-firebase-adminsdk.json")
 
@@ -155,7 +155,8 @@ app.get('/products',async(req,res)=>{
 
 });
 
-app.post('/products',async(req,res)=>{
+app.post('/products', verifyFirebaseToken,async(req,res)=>{
+  console.log('after axios secure',req.headers)
     const newProducts = req.body;
     const result = await productsCollection.insertOne(newProducts);
     res.send(result);
